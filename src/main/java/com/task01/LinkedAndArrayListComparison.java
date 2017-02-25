@@ -1,4 +1,4 @@
-package com;
+package com.task01;
 
 import lombok.extern.java.Log;
 

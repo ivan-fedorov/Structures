@@ -5,9 +5,14 @@ import lombok.extern.java.Log;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import static java.lang.String.*;
+
 @Log
 @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
 public class LinkedAndArrayListComparison {
+
+    private static final String ARRAY_LIST_FASTER = "ArrayList faster";
+    private static final String LINKED_LIST_FASTER = "LinkedList faster";
 
     private LinkedAndArrayListComparison() {
     }
@@ -16,15 +21,14 @@ public class LinkedAndArrayListComparison {
         final int capacity1K = 1000;
         final int capacity1KK = 1_000_000;
         final int capacity10KK = 10_000_000;
-        final String stringDelimiter = "\n LL: ";
 
-        ArrayList<Integer> arrayList1K = new ArrayList<>(capacity1K);
+        ArrayList<Integer> arrayList1K = new ArrayList<>();
         LinkedList<Integer> linkedList1K = new LinkedList<>();
 
-        ArrayList<Integer> arrayList1KK = new ArrayList<>(capacity1KK);
+        ArrayList<Integer> arrayList1KK = new ArrayList<>();
         LinkedList<Integer> linkedList1KK = new LinkedList<>();
 
-        ArrayList<Integer> arrayList10KK = new ArrayList<>(capacity10KK);
+        ArrayList<Integer> arrayList10KK = new ArrayList<>();
         LinkedList<Integer> linkedList10KK = new LinkedList<>();
 
         long alStart;
@@ -32,9 +36,11 @@ public class LinkedAndArrayListComparison {
         long llStart;
         long llStop;
 
+
+
         alStart = System.currentTimeMillis();
         for (int i = 0; i < capacity1K; i++) {
-            arrayList1K.add(i, i);
+            arrayList1K.add(i);
         }
         alStop = System.currentTimeMillis();
         llStart = System.currentTimeMillis();
@@ -44,11 +50,11 @@ public class LinkedAndArrayListComparison {
         llStop = System.currentTimeMillis();
 
 
-        log.info("Adding 1K elements:\n AL: " + (alStop - alStart) + stringDelimiter + (llStop - llStart) + "\n");
+        log.info(format("Adding 1K elements:%n AL: %d ms%n LL: %d ms%n", alStop - alStart, llStop - llStart));
 
         alStart = System.currentTimeMillis();
         for (int i = 0; i < capacity1KK; i++) {
-            arrayList1KK.add(i, i);
+            arrayList1KK.add(i);
         }
         alStop = System.currentTimeMillis();
         llStart = System.currentTimeMillis();
@@ -56,21 +62,24 @@ public class LinkedAndArrayListComparison {
             linkedList1KK.add(i);
         }
         llStop = System.currentTimeMillis();
-        log.info("Adding 1KK elements:\n AL: " + (alStop - alStart) + stringDelimiter + (llStop - llStart) + "\n");
+        log.info(format("Adding 1KK elements:%n AL: %d ms %n LL: %d ms%n", alStop - alStart, llStop - llStart));
+
+        checkFasterList(alStart, alStop, llStart, llStop);
 
 
         alStart = System.currentTimeMillis();
         for (int i = 0; i < capacity10KK; i++) {
-            arrayList10KK.add(i, i);
+            arrayList10KK.add(i);
         }
         alStop = System.currentTimeMillis();
-
         llStart = System.currentTimeMillis();
         for (int i = 0; i < capacity10KK; i++) {
             linkedList10KK.add(i);
         }
         llStop = System.currentTimeMillis();
-        log.info("Adding 10KK elements:\n AL: " + (alStop - alStart) + stringDelimiter + (llStop - llStart) + "\n");
+        log.info(format("Adding 10K elements:%n AL: %d ms%n LL: %d ms%n", alStop - alStart, llStop - llStart));
+
+        checkFasterList(alStart, alStop, llStart, llStop);
 
 
         alStart = System.currentTimeMillis();
@@ -79,7 +88,9 @@ public class LinkedAndArrayListComparison {
         llStart = System.currentTimeMillis();
         linkedList1K.get(capacity1K / 2);
         llStop = System.currentTimeMillis();
-        log.info("SEARCHING MIDDLE INDEX on 1K elements:\n AL: " + (alStop - alStart) + stringDelimiter + (llStop - llStart) + "\n");
+        log.info(format("SEARCHING MIDDLE INDEX on 1K elements:%n AL: %d ms %n LL: %d ms%n", alStop - alStart, llStop - llStart));
+
+        checkFasterList(alStart, alStop, llStart, llStop);
 
 
         alStart = System.currentTimeMillis();
@@ -88,7 +99,9 @@ public class LinkedAndArrayListComparison {
         llStart = System.currentTimeMillis();
         linkedList1KK.get(capacity1KK / 2);
         llStop = System.currentTimeMillis();
-        log.info("SEARCHING MIDDLE INDEX on 1KK elements:\n AL: " + (alStop - alStart) + stringDelimiter + (llStop - llStart) + "\n");
+        log.info(format("SEARCHING MIDDLE INDEX on 1KK elements:%n AL: %d ms %n LL: %d ms%n", alStop - alStart, llStop - llStart));
+
+        checkFasterList(alStart, alStop, llStart, llStop);
 
 
         alStart = System.currentTimeMillis();
@@ -97,7 +110,10 @@ public class LinkedAndArrayListComparison {
         llStart = System.currentTimeMillis();
         linkedList10KK.get(capacity10KK / 2);
         llStop = System.currentTimeMillis();
-        log.info("SEARCHING MIDDLE INDEX on 10KK elements:\n AL: " + (alStop - alStart) + stringDelimiter + (llStop - llStart) + "\n");
+        log.info(format("SEARCHING MIDDLE INDEX on 10KK elements:%n AL: %d ms %n LL: %d ms%n", alStop - alStart, llStop - llStart));
+
+        checkFasterList(alStart, alStop, llStart, llStop);
+
 
         alStart = System.currentTimeMillis();
         arrayList1K.remove(capacity1K / 2);
@@ -105,7 +121,9 @@ public class LinkedAndArrayListComparison {
         llStart = System.currentTimeMillis();
         linkedList1K.remove(capacity1K / 2);
         llStop = System.currentTimeMillis();
-        log.info("DELETING MIDDLE INDEX on 1K elements:\n AL: " + (alStop - alStart) + stringDelimiter + (llStop - llStart) + "\n");
+        log.info(format("DELETING MIDDLE INDEX on 1K elements:%n AL: %d ms %n LL: %d ms%n", alStop - alStart, llStop - llStart));
+
+        checkFasterList(alStart, alStop, llStart, llStop);
 
 
         alStart = System.currentTimeMillis();
@@ -114,8 +132,9 @@ public class LinkedAndArrayListComparison {
         llStart = System.currentTimeMillis();
         linkedList1KK.remove(capacity1KK / 2);
         llStop = System.currentTimeMillis();
-        log.info("DELETING MIDDLE INDEX on 1KK elements:\n AL: " + (alStop - alStart) + stringDelimiter + (llStop - llStart) + "\n");
+        log.info(format("DELETING MIDDLE INDEX on 1KK elements:%n AL: %d ms %n LL: %d ms%n", alStop - alStart, llStop - llStart));
 
+        checkFasterList(alStart, alStop, llStart, llStop);
 
         alStart = System.currentTimeMillis();
         arrayList10KK.remove(capacity10KK / 2);
@@ -123,7 +142,16 @@ public class LinkedAndArrayListComparison {
         llStart = System.currentTimeMillis();
         linkedList10KK.remove(capacity10KK / 2);
         llStop = System.currentTimeMillis();
-        log.info("DELETING MIDDLE INDEX on 10KK elements:\n AL: " + (alStop - alStart) + stringDelimiter + (llStop - llStart) + "\n");
+        log.info(format("DELETING MIDDLE INDEX on 10KK elements:%n AL: %d ms %n LL: %d ms%n", alStop - alStart, llStop - llStart));
 
+        checkFasterList(alStart, alStop, llStart, llStop);
+    }
+
+    private static void checkFasterList(long alStart, long alStop, long llStart, long llStop) {
+        if ((alStop - alStart) < (llStop - llStart)) {
+            log.info(ARRAY_LIST_FASTER);
+        } else {
+            log.info(LINKED_LIST_FASTER);
+        }
     }
 }

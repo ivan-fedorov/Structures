@@ -13,6 +13,11 @@ public class LinkedAndArrayListComparison {
     private static final String ARRAY_LIST_FASTER = "ArrayList faster";
     private static final String LINKED_LIST_FASTER = "LinkedList faster";
 
+    private static long alStart;
+    private static long alStop;
+    private static long llStart;
+    private static long llStop;
+
     private LinkedAndArrayListComparison() {
     }
 
@@ -34,6 +39,19 @@ public class LinkedAndArrayListComparison {
         addToEndList(capacity1KK, arrayList1KK, linkedList1KK);
         addToEndList(capacity10KK, arrayList10KK, linkedList10KK);
 
+        arrayList1K = new ArrayList<>(capacity1K);
+        linkedList1K = new LinkedList<>();
+
+        arrayList1KK = new ArrayList<>(capacity1KK);
+        linkedList1KK = new LinkedList<>();
+
+        arrayList10KK = new ArrayList<>(capacity10KK);
+        linkedList10KK = new LinkedList<>();
+
+        addToBeginOfList(capacity1K, arrayList1K, linkedList1K);
+        addToBeginOfList(capacity1KK, arrayList1KK, linkedList1KK);
+        addToBeginOfList(capacity10KK, arrayList10KK, linkedList10KK);
+
         findElementByIndex(arrayList1K, linkedList1K, capacity1K / 2);
         findElementByIndex(arrayList1KK, linkedList1KK, capacity1KK / 2);
         findElementByIndex(arrayList10KK, linkedList10KK, capacity10KK / 2);
@@ -45,41 +63,29 @@ public class LinkedAndArrayListComparison {
     }
 
     private static void deleteElementByIndex(ArrayList<Integer> arrayList, LinkedList<Integer> linkedList1K, int index) {
-        long alStart;
-        long alStop;
-        long llStart;
-        long llStop;
         alStart = System.currentTimeMillis();
         arrayList.remove(index);
         alStop = System.currentTimeMillis();
         llStart = System.currentTimeMillis();
         linkedList1K.remove(index);
         llStop = System.currentTimeMillis();
-        log.info(format("DELETING %s INDEX on 1K elements:%n AL: %d ms %n LL: %d ms", index, alStop - alStart, llStop - llStart));
+        log.info(format("DELETING %s INDEX on 1K elements:%n AL: %d ms %n LL: %d ms%n %s%n", index, alStop - alStart, llStop - llStart, checkFasterList(alStart, alStop, llStart, llStop)));
 
         checkFasterList(alStart, alStop, llStart, llStop);
     }
 
     private static void findElementByIndex(ArrayList<Integer> arrayList, LinkedList<Integer> linkedList1K, int index) {
-        long alStart;
-        long alStop;
-        long llStart;
-        long llStop;
         alStart = System.currentTimeMillis();
         arrayList.get(index);
         alStop = System.currentTimeMillis();
         llStart = System.currentTimeMillis();
         linkedList1K.get(index);
         llStop = System.currentTimeMillis();
-        log.info(format("SEARCHING %s INDEX on 1K elements:%n AL: %d ms %n LL: %d ms", index, alStop - alStart, llStop - llStart));
+        log.info(format("SEARCHING %s INDEX on 1K elements:%n AL: %d ms %n LL: %d ms%n %s%n", index, alStop - alStart, llStop - llStart, checkFasterList(alStart, alStop, llStart, llStop)));
         checkFasterList(alStart, alStop, llStart, llStop);
     }
 
     private static void addToEndList(int capacity, ArrayList<Integer> arrayList, LinkedList<Integer> linkedList) {
-        long alStart;
-        long alStop;
-        long llStart;
-        long llStop;
         alStart = System.currentTimeMillis();
         for (int i = 0; i < capacity; i++) {
             arrayList.add(i);
@@ -91,15 +97,31 @@ public class LinkedAndArrayListComparison {
         }
         llStop = System.currentTimeMillis();
 
-        log.info(format("Adding %s elements:%n AL: %d ms%n LL: %d ms", capacity, alStop - alStart, llStop - llStart));
+        log.info(format("Adding %s elements to the end of list:%n AL: %d ms%n LL: %d ms%n %s%n", capacity, alStop - alStart, llStop - llStart, checkFasterList(alStart, alStop, llStart, llStop)));
         checkFasterList(alStart, alStop, llStart, llStop);
     }
+    
+    private static void addToBeginOfList(int capacity, ArrayList<Integer> arrayList, LinkedList<Integer> linkedList) {
+        alStart = System.currentTimeMillis();
+        for (int i = 0; i < capacity; i++) {
+            arrayList.add(0,i);
+        }
+        alStop = System.currentTimeMillis();
+        llStart = System.currentTimeMillis();
+        for (int i = 0; i < capacity; i++) {
+            linkedList.add(0,i);
+        }
+        llStop = System.currentTimeMillis();
 
-    private static void checkFasterList(long alStart, long alStop, long llStart, long llStop) {
+        log.info(format("Adding %s elements to the beginning of list:%n AL: %d ms%n LL: %d ms%n %s%n", capacity, alStop - alStart, llStop - llStart, checkFasterList(alStart, alStop, llStart, llStop)));
+
+    }
+
+    private static String checkFasterList(long alStart, long alStop, long llStart, long llStop) {
         if ((alStop - alStart) < (llStop - llStart)) {
-            log.info(ARRAY_LIST_FASTER + "\n");
+            return ARRAY_LIST_FASTER;
         } else {
-            log.info(LINKED_LIST_FASTER + "\n");
+            return LINKED_LIST_FASTER;
         }
 
     }

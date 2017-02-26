@@ -10,9 +10,6 @@ import static java.lang.String.*;
 @Log
 public class LinkedAndArrayListComparison {
 
-    private static final String ARRAY_LIST_FASTER = "ArrayList faster";
-    private static final String LINKED_LIST_FASTER = "LinkedList faster";
-
     private static long alStart;
     private static long alStop;
     private static long llStart;
@@ -39,14 +36,11 @@ public class LinkedAndArrayListComparison {
         addToEndList(capacity1KK, arrayList1KK, linkedList1KK);
         addToEndList(capacity10KK, arrayList10KK, linkedList10KK);
 
-        arrayList1K = new ArrayList<>(capacity1K);
+        arrayList1K = new ArrayList<>();
         linkedList1K = new LinkedList<>();
 
-        arrayList1KK = new ArrayList<>(capacity1KK);
+        arrayList1KK = new ArrayList<>();
         linkedList1KK = new LinkedList<>();
-
-        arrayList10KK = new ArrayList<>(capacity10KK);
-        linkedList10KK = new LinkedList<>();
 
         addToBeginOfList(capacity1K, arrayList1K, linkedList1K);
         addToBeginOfList(capacity1KK, arrayList1KK, linkedList1KK);
@@ -62,68 +56,79 @@ public class LinkedAndArrayListComparison {
     }
 
     private static void deleteElementByIndex(ArrayList<Integer> arrayList, LinkedList<Integer> linkedList1K, int index) {
-        alStart = System.currentTimeMillis();
+        alStart = System.nanoTime();
         arrayList.remove(index);
-        alStop = System.currentTimeMillis();
-        llStart = System.currentTimeMillis();
+        alStop = System.nanoTime();
+        llStart = System.nanoTime();
         linkedList1K.remove(index);
-        llStop = System.currentTimeMillis();
-        log.info(format("DELETING %s INDEX on 1K elements:%n AL: %d ms %n LL: %d ms%n %s%n", index, alStop - alStart, llStop - llStart, checkFasterList(alStart, alStop, llStart, llStop)));
-
-        checkFasterList(alStart, alStop, llStart, llStop);
+        llStop = System.nanoTime();
+        long alValue = alStop - alStart;
+        long llValue = llStop - llStart;
+        log.info(format("DELETING %s INDEX on %d elements:%n AL: %d ms %n LL: %d ms%n %s%n",
+                index, arrayList.size() + 1, alValue, llValue, checkFasterList(alValue, llValue)));
     }
 
     private static void findElementByIndex(ArrayList<Integer> arrayList, LinkedList<Integer> linkedList1K, int index) {
-        alStart = System.currentTimeMillis();
+        alStart = System.nanoTime();
         arrayList.get(index);
-        alStop = System.currentTimeMillis();
-        llStart = System.currentTimeMillis();
+        alStop = System.nanoTime();
+        llStart = System.nanoTime();
         linkedList1K.get(index);
-        llStop = System.currentTimeMillis();
-        log.info(format("SEARCHING %s INDEX on 1K elements:%n AL: %d ms %n LL: %d ms%n %s%n", index, alStop - alStart, llStop - llStart, checkFasterList(alStart, alStop, llStart, llStop)));
-        checkFasterList(alStart, alStop, llStart, llStop);
+        llStop = System.nanoTime();
+        long alValue = alStop - alStart;
+        long llValue = llStop - llStart;
+
+        log.info(format("SEARCHING %s INDEX on %d elements:%n AL: %d ns %n LL: %d ns%n %s%n",
+                index,  arrayList.size() + 1, alValue, llValue, checkFasterList(alValue, llValue)));
     }
 
     private static void addToEndList(int capacity, ArrayList<Integer> arrayList, LinkedList<Integer> linkedList) {
-        alStart = System.currentTimeMillis();
+        alStart = System.nanoTime();
         for (int i = 0; i < capacity; i++) {
             arrayList.add(i);
         }
-        alStop = System.currentTimeMillis();
-        llStart = System.currentTimeMillis();
+        alStop = System.nanoTime();
+        llStart = System.nanoTime();
         for (int i = 0; i < capacity; i++) {
             linkedList.add(i);
         }
-        llStop = System.currentTimeMillis();
+        llStop = System.nanoTime();
 
-        log.info(format("Adding %s elements to the end of list:%n AL: %d ms%n LL: %d ms%n %s%n", capacity, alStop - alStart, llStop - llStart, checkFasterList(alStart, alStop, llStart, llStop)));
-        checkFasterList(alStart, alStop, llStart, llStop);
+        long alValue = alStop - alStart;
+        long llValue = llStop - llStart;
+
+        log.info(format("Adding %s elements to the end of list:%n AL: %d ns%n LL: %d ns%n %s%n",
+                arrayList.size() + 1, alValue, llValue, checkFasterList(alValue, llValue)));
     }
     
     private static void addToBeginOfList(int capacity, ArrayList<Integer> arrayList, LinkedList<Integer> linkedList) {
-        alStart = System.currentTimeMillis();
+        alStart = System.nanoTime();
         for (int i = 0; i < capacity; i++) {
             arrayList.add(0,i);
         }
-        alStop = System.currentTimeMillis();
-        llStart = System.currentTimeMillis();
+        alStop = System.nanoTime();
+        llStart = System.nanoTime();
         for (int i = 0; i < capacity; i++) {
             linkedList.add(0,i);
         }
-        llStop = System.currentTimeMillis();
+        llStop = System.nanoTime();
 
-        log.info(format("Adding %s elements to the beginning of list:%n AL: %d ms%n LL: %d ms%n %s%n", capacity, alStop - alStart, llStop - llStart, checkFasterList(alStart, alStop, llStart, llStop)));
+        long alValue = alStop - alStart;
+        long llValue = llStop - llStart;
+
+        log.info(format("Adding %s elements to the beginning of list:%n AL: %d ns%n LL: %d ns%n %s%n",
+                arrayList.size() + 1, alValue, llValue, checkFasterList(alValue, llValue)));
 
     }
 
-    private static String checkFasterList(long alStart, long alStop, long llStart, long llStop) {
-        if ((alStop - alStart) < (llStop - llStart)) {
-            return ARRAY_LIST_FASTER;
+    private static String checkFasterList(long alValue, long llValue) {
+        if (alValue < llValue) {
+            return "ArrayList faster";
+        } else if (alValue > llValue) {
+            return "LinkedList faster";
         } else {
-            return LINKED_LIST_FASTER;
+            return "Lists are equals";
         }
 
     }
-
-
 }

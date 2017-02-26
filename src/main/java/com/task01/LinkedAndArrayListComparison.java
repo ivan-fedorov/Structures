@@ -50,7 +50,6 @@ public class LinkedAndArrayListComparison {
 
         addToBeginOfList(capacity1K, arrayList1K, linkedList1K);
         addToBeginOfList(capacity1KK, arrayList1KK, linkedList1KK);
-        addToBeginOfList(capacity10KK, arrayList10KK, linkedList10KK);
 
         findElementByIndex(arrayList1K, linkedList1K, capacity1K / 2);
         findElementByIndex(arrayList1KK, linkedList1KK, capacity1KK / 2);

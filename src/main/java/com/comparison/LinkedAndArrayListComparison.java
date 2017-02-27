@@ -1,11 +1,11 @@
-package com.task01;
+package com.comparison;
 
 import lombok.extern.java.Log;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import static java.lang.String.*;
+import static java.lang.String.format;
 
 @Log
 public class LinkedAndArrayListComparison {
@@ -98,7 +98,7 @@ public class LinkedAndArrayListComparison {
         long llValue = llStop - llStart;
 
         log.info(format("Adding %s elements to the end of list:%n AL: %d ns%n LL: %d ns%n %s%n",
-                arrayList.size() + 1, alValue, llValue, checkFasterList(alValue, llValue)));
+                arrayList.size(), alValue, llValue, checkFasterList(alValue, llValue)));
     }
     
     private static void addToBeginOfList(int capacity, ArrayList<Integer> arrayList, LinkedList<Integer> linkedList) {
@@ -117,7 +117,7 @@ public class LinkedAndArrayListComparison {
         long llValue = llStop - llStart;
 
         log.info(format("Adding %s elements to the beginning of list:%n AL: %d ns%n LL: %d ns%n %s%n",
-                arrayList.size() + 1, alValue, llValue, checkFasterList(alValue, llValue)));
+                arrayList.size(), alValue, llValue, checkFasterList(alValue, llValue)));
 
     }
 

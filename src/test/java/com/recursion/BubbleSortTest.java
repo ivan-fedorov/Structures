@@ -4,7 +4,7 @@ import lombok.extern.java.Log;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 @Log
 class BubbleSortTest {
@@ -12,7 +12,7 @@ class BubbleSortTest {
     @Test
     void test() {
 
-        val integers = new ArrayList<Integer>();
+        val integers = new LinkedList<Integer>();
         integers.add(1);
         integers.add(4);
         integers.add(13);

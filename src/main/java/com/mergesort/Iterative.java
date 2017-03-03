@@ -4,13 +4,17 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingDeque;
 
-import static com.mergesort.Recursive.merge;
+import static com.mergesort.MergeListSort.merge;
 class Iterative {
 
     private Iterative() {
     }
 
     static List<Integer> mergeSort(List<Integer> list) {
+
+        if (list.size() == 1 || list.isEmpty()) {
+            return list;
+        }
 
         Queue<List<Integer>> queue = new LinkedBlockingDeque<>();
         queue.add(list);

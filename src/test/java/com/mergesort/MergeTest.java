@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -24,6 +26,12 @@ class MergeTest {
     void setUp() {
         list = new LinkedList<>();
         random = new Random();
+    }
+
+    @Test
+    void emptyListTest() {
+        LinkedList<Integer> list = new LinkedList<>();
+        assertThat(Iterative.mergeSort(list), is(list));
     }
 
     @Test
@@ -81,6 +89,8 @@ class MergeTest {
         log.info(String.format("%d elements%nRECURSIVE: %d ms%nITERATIVE: %d ms", LIST_SIZE100, recTime, iteTime));
 
         assertEquals(recursive, iterative);
+
+
     }
 
 

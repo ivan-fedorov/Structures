@@ -6,33 +6,81 @@ import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @Log
+@SuppressWarnings("Duplicates")
 class MergeTest {
-    List<Integer> list = new LinkedList<>();
+    private final static int LIST_SIZE5K = 5000;
+    private final static int LIST_SIZE20K = 20000;
+    private final static int LIST_SIZE100 = 100;
+    private List<Integer> list;
+    private Random random;
 
     @BeforeEach
     void setUp() {
-        list.add(5);
-        list.add(4);
-        list.add(4);
-        list.add(4);
-        list.add(3);
-        list.add(2);
-        list.add(2);
-        list.add(1);
-        list.add(1);
-        list.add(433);
-        list.add(1);
+        list = new LinkedList<>();
+        random = new Random();
     }
 
+    @Test
+    void test5k() {
+
+        for (int i = 0; i < LIST_SIZE5K; i++) {
+            list.add(random.nextInt(LIST_SIZE5K));
+        }
+
+        long recTime = System.currentTimeMillis();
+        List<Integer> recursive = Recursive.mergeSort(list);
+        recTime = System.currentTimeMillis() - recTime;
+
+        long iteTime = System.currentTimeMillis();
+        List<Integer> iterative = Iterative.mergeSort(list);
+        iteTime = System.currentTimeMillis() - iteTime;
+        log.info(String.format("%d elements%nRECURSIVE: %d ms%nITERATIVE: %d ms", LIST_SIZE5K, recTime, iteTime));
+
+        assertEquals(recursive, iterative);
+    }
 
     @Test
-    void recursiveVSiterative() {
-        assertEquals(Recursive.mergeSort(list), Iterative.mergeSort(list));
+    void test20k() {
+
+        for (int i = 0; i < LIST_SIZE20K; i++) {
+            list.add(random.nextInt(LIST_SIZE20K));
+        }
+
+        long recTime = System.currentTimeMillis();
+        List<Integer> recursive = Recursive.mergeSort(list);
+        recTime = System.currentTimeMillis() - recTime;
+
+        long iteTime = System.currentTimeMillis();
+        List<Integer> iterative = Iterative.mergeSort(list);
+        iteTime = System.currentTimeMillis() - iteTime;
+        log.info(String.format("%d elements%nRECURSIVE: %d ms%nITERATIVE: %d ms", LIST_SIZE20K, recTime, iteTime));
+
+        assertEquals(recursive, iterative);
+    }
+
+    @Test
+    void test100() {
+
+        for (int i = 0; i < LIST_SIZE100; i++) {
+            list.add(random.nextInt(LIST_SIZE100));
+        }
+
+        long recTime = System.currentTimeMillis();
+        List<Integer> recursive = Recursive.mergeSort(list);
+        recTime = System.currentTimeMillis() - recTime;
+
+        long iteTime = System.currentTimeMillis();
+        List<Integer> iterative = Iterative.mergeSort(list);
+        iteTime = System.currentTimeMillis() - iteTime;
+        log.info(String.format("%d elements%nRECURSIVE: %d ms%nITERATIVE: %d ms", LIST_SIZE100, recTime, iteTime));
+
+        assertEquals(recursive, iterative);
     }
 
 

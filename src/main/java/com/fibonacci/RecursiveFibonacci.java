@@ -17,11 +17,8 @@ class RecursiveFibonacci {
             return cache[n];
         }
 
-
-        int result = fibonacci(n - 1) + fibonacci(n - 2);
-        cache[n] = result;
-        return result;
-
+        cache[n] = fibonacci(n - 1) + fibonacci(n - 2);
+        return cache[n];
     }
 
 }

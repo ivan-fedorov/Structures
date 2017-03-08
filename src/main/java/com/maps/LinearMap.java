@@ -5,7 +5,7 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LinearMap {
+class LinearMap {
 
     private final int capacity;
     private List<Pair<Object, Object>> list;

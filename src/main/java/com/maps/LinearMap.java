@@ -1,33 +1,64 @@
 package com.maps;
 
+import javafx.util.Pair;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class LinearMap {
 
-    private List<Object> list;
-    private int capacity;
+    private final int capacity;
+    private List<Pair<Object, Object>> list;
 
     LinearMap(int capacity) {
         this.capacity = capacity;
         list = new ArrayList<>(capacity);
+        for (int i = 0; i < capacity; i++) {
+            list.add(null);
+        }
     }
 
-    void put(Object value) {
-
-
+    boolean put(Object key, Object value) {
+        int nextIndex;
+        if (key == null || value == null) {
+            return false;
+        }
+        if (list.get(hash(key)) != null) {
+            nextIndex = (hash(key) + 1) % capacity;
+            while (nextIndex != hash(key)) {
+                if (list.get(nextIndex) != null) {
+                    nextIndex = (nextIndex + 1) % capacity;
+                } else {
+                    list.set(nextIndex, new Pair<>(key, value));
+                    return true;
+                }
+            }
+            return false;
+        }
+        list.set(hash(key), new Pair<>(key, value));
+        return true;
     }
 
-    Object get(int key) {
-        return new Object();
+    Object getKey(Object key) {
+        for (Pair<Object, Object> pair : list) {
+            if (pair.getKey() == key) {
+                return pair.getValue();
+            }
+        }
+        return null;
     }
 
-    boolean delete(Object value) {
-
+    boolean deleteKey(Object key) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getKey().equals(key)) {
+                list.set(i, null);
+                return true;
+            }
+        }
         return false;
     }
 
-    private int hash(Object value) {
-        return (int) (Math.random() * capacity);
+    private int hash(Object key) {
+        return key.hashCode() % capacity;
     }
 }

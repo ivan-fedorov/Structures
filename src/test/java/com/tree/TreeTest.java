@@ -35,10 +35,21 @@ class TreeTest {
     @Test
     void testTree() {
 
+        System.out.println("BFS: ");
+        tree.bfs();
+        System.out.println();
 
+        System.out.println("PRE-ORDER: ");
         tree.preOrder();
         System.out.println();
-        tree.bfs();
+
+        System.out.println("IN-ORDER: ");
+        tree.inOrder();
+        System.out.println();
+
+        System.out.println("POST-ORDER: ");
+        tree.postOrder();
+        System.out.println();
     }
 
 }

@@ -118,7 +118,6 @@ public class Tree {
     public void preOrder() {
         preOrder(root);
     }
-
     private void preOrder(Node curNode) {
         if (curNode == null) {
             return;
@@ -129,6 +128,39 @@ public class Tree {
             preOrder(curNode.right);
         }
     }
+
+    void inOrder() {
+        inOrder(root);
+    }
+
+    private void inOrder(Node curNode) {
+        if (curNode == null) {
+            return;
+        }
+        if (curNode.left != null) {
+            inOrder(curNode.left);
+        }
+        System.out.print(curNode.data + " ");
+        if (curNode.right != null) {
+            inOrder(curNode.right);
+        }
+    }
+
+    void postOrder() {
+        postOrder(root);
+    }
+
+    private void postOrder(Node curNode) {
+        if (curNode == null) {
+            return;
+        }
+        if (curNode.left != null || curNode.right != null) {
+            postOrder(curNode.left);
+            postOrder(curNode.right);
+        }
+        System.out.print(curNode.data + " ");
+    }
+
 
 
     public void bfs() {

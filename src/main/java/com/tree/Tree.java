@@ -1,49 +1,53 @@
 package com.tree;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class Tree {
 
     private Node root;
 
-    public Tree(Node root) {
-        this.root = root;
-    }
-
     public Tree() {
-        this(null);
+        root = null;
     }
 
-    static int height(Node node) {
 
-
-        int tmpHeight = -1;
-
-        if (!node.child.isEmpty()) {
-            for (Node childNode : node.child) {
-                int childHeight = height(childNode);
-                if (childHeight > tmpHeight) {
-                    tmpHeight = childHeight;
-                }
-            }
-        }
-        return tmpHeight + 1;
+    public int height() {
+        return height(root);
     }
 
-    int size(Node node) {
+    private int height(Node node) {
+
         if (node == null) {
             return 0;
         }
-        int tmpSize = 0;
-        for (Node childNode : node.child) {
-            tmpSize += size(childNode);
+
+        int childLeft = height(node.left);
+        int childRight = height(node.right);
+        return childLeft > childRight ? childLeft : childRight;
+
+    }
+
+    public int size() {
+        return size(root);
+    }
+
+    private int size(Node node) {
+        if (node == null) {
+            return 0;
         }
-        return tmpSize + 1;
+        return size(node.left) + size(node.right) + 1;
     }
 
-    int rank(Node node) {
-        return size(node) - 1;
+    public int rank(String data) {
+        return size(find(data)) - 1;
     }
 
-    int depth(Node curNode, Node searchNode) {
+    int depth(Node searchNode) {
+        return depth(root, searchNode);
+    }
+
+    private int depth(Node curNode, Node searchNode) {
         int tmpDepth;
         if (curNode == null || root == searchNode) {
             return 0;
@@ -51,31 +55,117 @@ public class Tree {
         if (curNode == searchNode) {
             return 1;
         }
-        if (!curNode.child.isEmpty()) {
-            for (Node childNode : curNode.child) {
-                tmpDepth = depth(childNode, searchNode);
-                if (tmpDepth != 0) {
-                    return tmpDepth + 1;
-                }
-            }
+        tmpDepth = depth(curNode.left, searchNode);
+        if (tmpDepth != 0) {
+            return tmpDepth + 1;
+        } else {
+            return depth(curNode.right, searchNode) + 1;
         }
-        return -1;
     }
 
-    void add(Node curNode, String data) {
+    public void add(String data) {
+        add(root, data);
+    }
+
+    private void add(Node curNode, String data) {
         if (data.isEmpty()) {
             return;
         }
+
+        Node newNode = new Node(data);
+
         if (root == null) {
-            this.root = new Node(data);
+            this.root = newNode;
         }
+
         if (curNode == null) {
-            curNode = new Node(data);
+            return;
         }
         if (data.compareTo(curNode.data) < 0) {
-            add(curNode.child.get(0), data);
+            if (curNode.left == null) {
+                curNode.left = newNode;
+            } else {
+                add(curNode.left, data);
+            }
         } else {
-            add(curNode.child.get(1), data);
+            if (curNode.right == null) {
+                curNode.right = newNode;
+            } else {
+                add(curNode.right, data);
+            }
         }
     }
+
+    public Node find(String data) {
+        return find(root, data);
+    }
+
+    private Node find(Node curNode, String data) {
+        if (data.isEmpty() || curNode == null) {
+            return null;
+        }
+        if (curNode.data.equals(data)) {
+            return curNode;
+        }
+
+        if (data.compareTo(curNode.data) < 0) {
+            return find(curNode.left, data);
+        } else {
+            return find(curNode.right, data);
+        }
+    }
+
+    public void preOrder() {
+        preOrder(root);
+    }
+
+    private void preOrder(Node curNode) {
+        if (curNode == null) {
+            return;
+        }
+        System.out.print(curNode.data + " ");
+        if (curNode.left != null || curNode.right != null) {
+            preOrder(curNode.left);
+            preOrder(curNode.right);
+        }
+    }
+
+
+    public void bfs() {
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(root);
+        System.out.print(root.data + " ");
+        root.visited = true;
+        while (!queue.isEmpty()) {
+            Node node = queue.remove();
+            while ((node.left != null && !node.left.visited) || (node.right != null && !node.right.visited)) {
+                if (node.left != null) {
+                    node.left.visited = true;
+                    System.out.print(node.left.data + " ");
+                    queue.add(node.left);
+                }
+                if (node.right != null) {
+                    node.right.visited = true;
+                    System.out.print(node.right.data + " ");
+                    queue.add(node.right);
+                }
+            }
+        }
+    }
+
+
+    private class Node {
+        Node left;
+        Node right;
+        String data;
+        boolean visited;
+
+        Node(String data) {
+            this.data = data;
+            left = null;
+            right = null;
+        }
+
+    }
+
 }

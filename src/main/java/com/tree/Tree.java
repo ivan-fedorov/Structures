@@ -118,6 +118,7 @@ public class Tree {
     public void preOrder() {
         preOrder(root);
     }
+
     private void preOrder(Node curNode) {
         if (curNode == null) {
             return;
@@ -160,7 +161,6 @@ public class Tree {
         }
         System.out.print(curNode.data + " ");
     }
-
 
 
     public void bfs() {

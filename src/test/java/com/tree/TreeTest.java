@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 @Log
 class TreeTest {
-    Tree tree;
+    private Tree tree;
 
 
     /*

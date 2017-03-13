@@ -9,15 +9,15 @@ class TwoThreeTreeTest {
 
     @BeforeEach
     void setUp() {
-        tree = new TwoThreeTree();
-        tree.insert(new Node("A"));
-        tree.insert(new Node("B"));
-        tree.insert(new Node("C"));
-        tree.insert(new Node("D"));
-        tree.insert(new Node("E"));
-        tree.insert(new Node("F"));
-        tree.insert(new Node("G"));
-        tree.insert(new Node("H"));
+//        tree = new TwoThreeTree();
+//        tree.insert(new Node("A"));
+//        tree.insert(new Node("B"));
+//        tree.insert(new Node("C"));
+//        tree.insert(new Node("D"));
+//        tree.insert(new Node("E"));
+//        tree.insert(new Node("F"));
+//        tree.insert(new Node("G"));
+//        tree.insert(new Node("H"));
     }
 
     @Test

@@ -1,8 +1,7 @@
 package com.mergesort;
 
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.LinkedBlockingDeque;
 
 import static com.mergesort.MergeListSort.merge;
 class Iterative {
@@ -16,35 +15,35 @@ class Iterative {
             return list;
         }
 
-        Queue<List<Integer>> queue = new LinkedBlockingDeque<>();
-        queue.add(list);
+        List<List<Integer>> quededList = new LinkedList<>();
+        quededList.add(list);
         List<Integer> tmpList;
         List<Integer> left;
         List<Integer> right;
 
-        while (queue.size() != list.size()) {
-            tmpList = queue.poll();
+        while (quededList.size() != list.size()) {
+            tmpList = quededList.remove(0);
             if (tmpList.size() == 1) {
-                queue.add(tmpList);
+                quededList.add(tmpList);
                 continue;
             }
             left = tmpList.subList(0, tmpList.size() / 2);
             right = tmpList.subList(tmpList.size() / 2, tmpList.size());
             if (!left.isEmpty()) {
-                queue.add(left);
+                quededList.add(left);
             }
             if (!right.isEmpty()) {
-                queue.add(right);
+                quededList.add(right);
             }
         }
 
-        while (queue.size() != 1) {
-            left = queue.poll();
-            right = queue.poll();
-            queue.add(merge(left, right));
+        while (quededList.size() != 1) {
+            left = quededList.remove(0);
+            right = quededList.remove(0);
+            quededList.add(merge(left, right));
         }
 
-        return queue.peek();
+        return quededList.get(0);
     }
 
 

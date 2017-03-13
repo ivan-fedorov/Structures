@@ -49,8 +49,10 @@ class LinearMap {
     }
 
     boolean deleteKey(Object key) {
+        Pair<Object, Object> tmpPair;
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getKey().equals(key)) {
+            tmpPair = list.get(i);
+            if (tmpPair != null && tmpPair.getKey().equals(key)) {
                 list.set(i, null);
                 return true;
             }

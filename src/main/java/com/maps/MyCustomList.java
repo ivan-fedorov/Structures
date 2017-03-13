@@ -9,19 +9,19 @@ import java.util.List;
 @Log
 class MyCustomList {
 
-    private ArrayList<ArrayList<Integer>> mainArray;
+    private ArrayList<ArrayList<Integer>> mainArrayList;
 
     MyCustomList(int capacity) {
-        mainArray = new ArrayList<>(capacity);
+        mainArrayList = new ArrayList<>(capacity);
         for (int i = 0; i < capacity; i++) {
-            mainArray.add(new ArrayList<>());
+            mainArrayList.add(new ArrayList<>());
         }
     }
 
     void add(int value) {
-        ArrayList<Integer> tmpInt = mainArray.get(hashCode(value));
+        ArrayList<Integer> tmpInt = mainArrayList.get(hashCode(value));
         tmpInt.add(value);
-        mainArray.set(hashCode(value), tmpInt);
+        mainArrayList.set(hashCode(value), tmpInt);
     }
 
     private int hashCode(int value) {
@@ -30,14 +30,14 @@ class MyCustomList {
 
     List<Integer> getValue(int key) {
         if (key < 1000) {
-            return mainArray.get(key);
+            return mainArrayList.get(key);
         }
         return Collections.emptyList();
     }
 
     int getKey(int value) {
-        for (int i = 0; i < mainArray.size(); i++) {
-            if (mainArray.get(i).contains(value)) {
+        for (int i = 0; i < mainArrayList.size(); i++) {
+            if (mainArrayList.get(i).contains(value)) {
                 return i;
             }
         }

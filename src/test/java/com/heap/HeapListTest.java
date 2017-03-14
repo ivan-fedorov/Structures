@@ -6,10 +6,11 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.heap.HeapSort.sort;
+import static com.heap.HeapList.makeHeap;
 
-class HeapSortTest {
-    List<Integer> basicList;
+
+class HeapListTest {
+    private List<Integer> basicList;
 
     @BeforeEach
     void setUp() {
@@ -21,6 +22,8 @@ class HeapSortTest {
         basicList.add(5);
         basicList.add(14);
         basicList.add(9);
+        basicList.add(6);
+        basicList.add(10);
         basicList.add(2);
         basicList.add(8);
         basicList.add(7);
@@ -30,9 +33,7 @@ class HeapSortTest {
 
     @Test
     void test() {
-        System.out.println(sort(basicList).toString());
-
-
+        System.out.println(makeHeap(basicList).toString());
     }
 
 }

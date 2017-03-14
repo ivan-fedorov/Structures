@@ -2,25 +2,21 @@ package com.heap;
 
 import java.util.List;
 
-public class HeapSort {
+public class HeapList {
 
     private static int heapSize;
 
-    public static List<Integer> sort(List<Integer> list) {
-        makeHeap(list);
-        while (heapSize > 1) {
-            swap(list, 0, heapSize - 1);
-            heapSize--;
-            heapify(list, 0);
+    public static List<Integer> makeHeap(List<Integer> list) {
+        if (list.isEmpty() || list == null) {
+            return list;
+        }
+        heapSize = list.size();
+        if (heapSize > 1) {
+            for (int i = list.size() / 2; i >= 0; i--) {
+                heapify(list, i);
+            }
         }
         return list;
-    }
-
-    private static void makeHeap(List<Integer> list) {
-        heapSize = list.size();
-        for (int i = list.size() / 2; i >= 0; i--) {
-            heapify(list, i);
-        }
     }
 
     private static void heapify(List<Integer> list, int i) {
